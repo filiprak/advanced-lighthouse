@@ -17,52 +17,55 @@ class SimulationAudit extends Audit {
     static async audit(artifacts: LH.Artifacts, context: LH.Audit.Context): Promise<LH.Audit.NonNumericProduct> {
         const metricResult = await this.getMetricResult(artifacts, context);
         const estimate = this.optimistic ? metricResult.optimisticEstimate : metricResult.pessimisticEstimate;
-        let items: LH.Audit.Details.Table["items"] = [];
+
+        type Item = { name: string, type: string, start: number, end: number, duration: number };
 
         let maxEnd = 0;
 
-        items = items.concat([...estimate.nodeTimings].map(([node, res]) => {
+        const items: Item[] = [...estimate.nodeTimings].map(([node, res]) => {
             maxEnd = Math.max(maxEnd, res.endTime);
 
             if (node.type == 'network') {
                 return {
                     name: node.request.url,
                     type: node.type,
-                    start: res.startTime.toFixed(0),
-                    end: res.endTime.toFixed(0),
-                    duration: res.duration.toFixed(0) + ' ms',
+                    start: res.startTime,
+                    end: res.endTime,
+                    duration: res.duration,
                 };
             } else {
                 return {
                     name: node.event.name,
                     type: node.type,
-                    start: res.startTime.toFixed(0),
-                    end: res.endTime.toFixed(0),
-                    duration: res.duration.toFixed(0) + ' ms',
+                    start: res.startTime,
+                    end: res.endTime,
+                    duration: res.duration,
                 };
             }
-        }));
-
-        items.push({
-            name: `Summary (${this.optimistic ? 'Optimistic' : 'Pessimistic'} ${this.label} = ${estimate.timeInMs.toFixed(0)} ms)`,
-            type: '',
-            start: '',
-            end: maxEnd.toFixed(0) + ' ms',
-            duration: '',
         });
 
-        const headings: LH.Audit.Details.Table["headings"] = [
-            { key: 'name', valueType: 'text', label: 'Resource' },
-            { key: 'type', valueType: 'text', label: 'Type' },
-            { key: 'start', valueType: 'text', label: 'Start' },
-            { key: 'end', valueType: 'text', label: 'End' },
-            { key: 'duration', valueType: 'text', label: 'Duration' },
-        ];
-
-        const render = (el: HTMLElement, data: unknown) => {
+        const render = (el: HTMLElement, data: { items: Item[], max: number }) => {
             const chart = document.createElement('div');
 
-            chart.innerHTML = JSON.stringify(data);
+            chart.style.margin = '24px';
+            chart.style.border = '1px dashed grey';
+
+            for (let item of data.items) {
+                const row = document.createElement('div');
+                const trace = document.createElement('div');
+
+                trace.style.marginLeft = ((item.start / data.max) * 100).toFixed(2) + '%';
+                trace.style.width = ((item.duration / data.max) * 100).toFixed(2) + '%';
+                trace.style.height = '15px';
+                trace.style.backgroundColor = 'blueviolet';
+                trace.style.border = '1px solid grey';
+
+                row.setAttribute('title', `[${item.duration.toFixed(0)} ms] ${item.type}: ${item.name}`);
+                row.addEventListener('mouseenter', () => { row.style.background = '#ffffff29' });
+                row.addEventListener('mouseleave', () => { row.style.background = '' });
+                row.appendChild(trace);
+                chart.appendChild(row);
+            }
 
             el.getElementsByClassName('lh-expandable-details')?.[0]?.appendChild(chart);
         }
@@ -72,7 +75,10 @@ class SimulationAudit extends Audit {
             scoreDisplayMode: 'informative',
             details: {
                 type: 'debugdata',
-                _data: items,
+                _data: {
+                    items,
+                    max: maxEnd,
+                },
                 _render: render.toString(),
             },
         };
