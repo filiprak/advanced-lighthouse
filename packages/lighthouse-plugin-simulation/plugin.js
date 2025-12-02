@@ -1,4 +1,4 @@
-import SimulationAudit from './audits/simulation-stats';
+import SimulationAudit from './audits/simulation-stats.js';
 
 export default {
     // array of audits that this plugin contributes
