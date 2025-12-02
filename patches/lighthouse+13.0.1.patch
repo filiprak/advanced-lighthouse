@@ -1,11 +1,18 @@
 diff --git a/node_modules/lighthouse/report/assets/standalone-template.html b/node_modules/lighthouse/report/assets/standalone-template.html
-index 5dda42b..eba52b7 100644
+index 5dda42b..1988738 100644
 --- a/node_modules/lighthouse/report/assets/standalone-template.html
 +++ b/node_modules/lighthouse/report/assets/standalone-template.html
-@@ -23,5 +23,6 @@ SPDX-License-Identifier: Apache-2.0
+@@ -23,5 +23,13 @@ SPDX-License-Identifier: Apache-2.0
    //# sourceURL=compiled-reportrenderer.js
    </script>
    <script>console.log('window.__LIGHTHOUSE_JSON__', __LIGHTHOUSE_JSON__);</script>
-+  <script>Object.values(__LIGHTHOUSE_JSON__.audits).forEach(a => { if (a.details?.type == 'debugdata') eval(a.details._eval) })</script>
++  <script>
++    Object
++      .entries(__LIGHTHOUSE_JSON__.audits)
++      .forEach(([id, a]) => {
++        if (a.details?.type == 'debugdata' && a.details?._render)
++          eval(a.details._render)(document.getElementById(id), a.details._data);
++      })
++  </script>
  </body>
  </html>

@@ -59,12 +59,21 @@ class SimulationAudit extends Audit {
             { key: 'duration', valueType: 'text', label: 'Duration' },
         ];
 
+        const render = (el: HTMLElement, data: unknown) => {
+            const chart = document.createElement('div');
+
+            chart.innerHTML = JSON.stringify(data);
+
+            el.appendChild(chart);
+        }
+
         return {
             score: null,
             scoreDisplayMode: 'informative',
             details: {
                 type: 'debugdata',
-                _eval: `console.log(document.getElementById('${this.meta.id}'))`,
+                _data: items,
+                _render: render.toString(),
             },
         };
     }
