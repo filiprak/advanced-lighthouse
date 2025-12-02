@@ -2,9 +2,13 @@
   "name": "advanced-lighthouse",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "main": "index.js",
   "scripts": {
-    "start": "lighthouse https://mytruck-company.ikol.com --config-path=./src/config.js --view --output-path ./out/report.html --only-categories=performance,simulation --chrome-flags='--headless'"
+    "start": "lighthouse https://mytruck-company.ikol.com --plugins=lighthouse-plugin-simulation --view --output-path ./out/report.html --only-categories=performance,lighthouse-plugin-simulation --chrome-flags='--headless'"
   },
   "repository": {
     "type": "git",

@@ -1,9 +1,8 @@
-const SimulationAudit = require('./audits/simulation-stats');
-const path = require('path');
+import SimulationAudit from './audits/simulation-stats';
 
-const manifest = {
+export default {
     // array of audits that this plugin contributes
-    audits: [{ path: path.resolve(__dirname, './audits/simulation-stats.js') }],
+    audits: [{ path: 'lighthouse-plugin-simulation/audits/simulation-stats.js' }],
 
     // categories that will show up on the final report. We add a category
     // that references our audit (weight 0 so it doesn't affect scores).
@@ -15,5 +14,3 @@ const manifest = {
         ],
     }
 };
-
-module.exports = manifest;

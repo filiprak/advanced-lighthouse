@@ -1,4 +1,4 @@
-const { Audit } = require('lighthouse');
+import { Audit } from 'lighthouse';
 
 class SimulationAudit extends Audit {
     static get meta () {
@@ -39,4 +39,4 @@ class SimulationAudit extends Audit {
     }
 }
 
-module.exports = SimulationAudit;
+export default SimulationAudit;

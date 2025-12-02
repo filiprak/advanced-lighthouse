@@ -1,0 +1,16 @@
+{
+  "name": "lighthouse-plugin-simulation",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "plugin.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "lighthouse": "^13.0.1"
+  },
+  "devDependencies": {
+    "lighthouse": "^13.0.1"
+  }
+}
