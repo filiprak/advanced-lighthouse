@@ -13,6 +13,8 @@ export default <LH.Config.Plugin>{
         { path: 'lighthouse-plugin-simulation/dist/audits/fcp-optimistic.js' },
         { path: 'lighthouse-plugin-simulation/dist/audits/lcp-pessimistic.js' },
         { path: 'lighthouse-plugin-simulation/dist/audits/lcp-optimistic.js' },
+        { path: 'lighthouse-plugin-simulation/dist/audits/tbt-pessimistic.js' },
+        { path: 'lighthouse-plugin-simulation/dist/audits/tbt-optimistic.js' },
     ],
 
     // categories that will show up on the final report. We add a category
