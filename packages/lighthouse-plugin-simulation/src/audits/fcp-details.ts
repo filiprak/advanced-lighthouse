@@ -5,8 +5,8 @@ import { FirstContentfulPaint as ComputedFcp } from 'lighthouse/core/computed/me
 class SimulationAudit extends Audit {
     static get meta(): LH.Audit.Meta {
         return {
-            id: 'fcp-optimistic',
-            title: 'FCP Simulation details - Optimistic',
+            id: 'fcp-details',
+            title: 'FCP Simulation details',
             description: 'Table shows FCP critical path simulation breakdown.',
             failureTitle: 'FCP Simulation details',
             supportedModes: ['navigation'],
@@ -25,39 +25,41 @@ class SimulationAudit extends Audit {
             HostDPR: artifacts.HostDPR,
         };
         const metricResult = (await ComputedFcp.request(metricComputationData, context)) as LH.Artifacts.LanternMetric;
-        const estimate = metricResult.optimisticEstimate;
+        let items: LH.Audit.Details.Table["items"] = [];
 
-        let maxEnd = 0;
+        for (const estimate of [metricResult.pessimisticEstimate, metricResult.optimisticEstimate]) {
+            let maxEnd = 0;
 
-        const items: LH.Audit.Details.Table["items"] = [...estimate.nodeTimings].map(([node, res]) => {
-            maxEnd = Math.max(maxEnd, res.endTime);
+            items = items.concat([...estimate.nodeTimings].map(([node, res]) => {
+                maxEnd = Math.max(maxEnd, res.endTime);
 
-            if (node.type == 'network') {
-                return {
-                    name: node.request.url,
-                    type: node.type,
-                    start: res.startTime.toFixed(0),
-                    end: res.endTime.toFixed(0),
-                    duration: res.duration.toFixed(0) + ' ms',
-                };
-            } else {
-                return {
-                    name: node.event.name,
-                    type: node.type,
-                    start: res.startTime.toFixed(0),
-                    end: res.endTime.toFixed(0),
-                    duration: res.duration.toFixed(0) + ' ms',
-                };
-            }
-        });
+                if (node.type == 'network') {
+                    return {
+                        name: node.request.url,
+                        type: node.type,
+                        start: res.startTime.toFixed(0),
+                        end: res.endTime.toFixed(0),
+                        duration: res.duration.toFixed(0) + ' ms',
+                    };
+                } else {
+                    return {
+                        name: node.event.name,
+                        type: node.type,
+                        start: res.startTime.toFixed(0),
+                        end: res.endTime.toFixed(0),
+                        duration: res.duration.toFixed(0) + ' ms',
+                    };
+                }
+            }));
 
-        items.push({
-            name: `Summary (Optimistic FCP = ${estimate.timeInMs.toFixed(0)} ms)`,
-            type: '',
-            start: '',
-            end: maxEnd.toFixed(0) + ' ms',
-            duration: '',
-        });
+            items.push({
+                name: `Summary (Optimistic FCP = ${estimate.timeInMs.toFixed(0)} ms)`,
+                type: '',
+                start: '',
+                end: maxEnd.toFixed(0) + ' ms',
+                duration: '',
+            });
+        }
 
         const headings: LH.Audit.Details.Table["headings"] = [
             { key: 'name', valueType: 'text', label: 'Resource' },
