@@ -8,7 +8,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "start": "lighthouse https://mytruck-company.ikol.com --plugins=lighthouse-plugin-simulation --view --output-path ./out/report.html --only-categories=performance,lighthouse-plugin-simulation --chrome-flags='--headless'"
+    "start": "npm run build -w packages/lighthouse-plugin-simulation && lighthouse https://mytruck-company.ikol.com --plugins=lighthouse-plugin-simulation --view --output-path ./out/report.html --only-categories=performance,lighthouse-plugin-simulation --chrome-flags='--headless'"
   },
   "repository": {
     "type": "git",

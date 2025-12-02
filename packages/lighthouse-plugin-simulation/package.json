@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "plugin.js",
-  "scripts": {},
+  "main": "dist/plugin.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "author": "",
   "license": "ISC",
   "peerDependencies": {
     "lighthouse": "^13.0.1"
   },
   "devDependencies": {
-    "lighthouse": "^13.0.1"
+    "lighthouse": "^13.0.1",
+    "typescript": "^5.9.3"
   }
 }
