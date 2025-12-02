@@ -3,11 +3,10 @@ import { Audit } from 'lighthouse';
 class SimulationAudit extends Audit {
     static get meta () {
         return {
-            id: 'my-table-audit',
-            title: 'Example results table',
-            description: 'A simple table added to the Lighthouse report by a plugin.',
-            failureTitle: 'Page does not have at least one cat image',
-            // No scoring; used for informational output
+            id: 'fcp-details',
+            title: 'FCP Simulation details',
+            description: 'Table shows FCP critical path simulation breakdown.',
+            failureTitle: 'FCP Simulation details',
             requiredArtifacts: []
         };
     }
@@ -32,7 +31,7 @@ class SimulationAudit extends Audit {
 
         return {
             // Score set to 1 so the audit is 'passing' (you can also return null for no score)
-            score: 1,
+            score: 0,
             // `details` controls how the audit is rendered in the report
             details: Audit.makeTableDetails(headings, items)
         };
