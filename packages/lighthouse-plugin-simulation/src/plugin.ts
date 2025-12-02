@@ -5,6 +5,8 @@ import SimulationAuditLCP from './audits/lcp-pessimistic.js';
 import SimulationAuditLCPOpt from './audits/lcp-optimistic.js';
 import SimulationAuditTBT from './audits/tbt-pessimistic.js';
 import SimulationAuditTBTOpt from './audits/tbt-optimistic.js';
+import SimulationAuditSI from './audits/si-pessimistic.js';
+import SimulationAuditSIOpt from './audits/si-optimistic.js';
 
 export default <LH.Config.Plugin>{
     // array of audits that this plugin contributes
@@ -15,6 +17,8 @@ export default <LH.Config.Plugin>{
         { path: 'lighthouse-plugin-simulation/dist/audits/lcp-optimistic.js' },
         { path: 'lighthouse-plugin-simulation/dist/audits/tbt-pessimistic.js' },
         { path: 'lighthouse-plugin-simulation/dist/audits/tbt-optimistic.js' },
+        { path: 'lighthouse-plugin-simulation/dist/audits/si-pessimistic.js' },
+        { path: 'lighthouse-plugin-simulation/dist/audits/si-optimistic.js' },
     ],
 
     // categories that will show up on the final report. We add a category
@@ -29,6 +33,8 @@ export default <LH.Config.Plugin>{
             { id: SimulationAuditLCPOpt.meta.id, weight: 1 },
             { id: SimulationAuditTBT.meta.id, weight: 1 },
             { id: SimulationAuditTBTOpt.meta.id, weight: 1 },
+            { id: SimulationAuditSI.meta.id, weight: 1 },
+            { id: SimulationAuditSIOpt.meta.id, weight: 1 },
         ],
     }
 };
