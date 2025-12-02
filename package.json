@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "lighthouse https://mytruck-company.ikol.com --config-path=./src/config.js --view --output-path ./out/report.html --only-categories=performance,simulation --chrome-flags='--headless'"
   },
   "repository": {
     "type": "git",
