@@ -1,9 +1,13 @@
 import * as LH from 'lighthouse/types/lh.js';
-import SimulationAudit from './audits/fcp-details.js';
+import SimulationAuditFCP from './audits/fcp-pessimistic.js';
+import SimulationAuditFCPOpt from './audits/fcp-optimistic.js';
 
 export default <LH.Config.Plugin>{
     // array of audits that this plugin contributes
-    audits: [{ path: 'lighthouse-plugin-simulation/dist/audits/fcp-details.js' }],
+    audits: [
+        { path: 'lighthouse-plugin-simulation/dist/audits/fcp-pessimistic.js' },
+        { path: 'lighthouse-plugin-simulation/dist/audits/fcp-optimistic.js' },
+    ],
 
     // categories that will show up on the final report. We add a category
     // that references our audit (weight 0 so it doesn't affect scores).
@@ -11,7 +15,8 @@ export default <LH.Config.Plugin>{
         title: 'Simulation',
         description: 'Mobile simulation detailed report.',
         auditRefs: [
-            { id: SimulationAudit.meta.id, weight: 1 }
+            { id: SimulationAuditFCP.meta.id, weight: 1 },
+            { id: SimulationAuditFCPOpt.meta.id, weight: 1 },
         ],
     }
 };
