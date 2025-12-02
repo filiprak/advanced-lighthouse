@@ -31,7 +31,7 @@ class SimulationAudit extends Audit {
 
         return {
             // Score set to 1 so the audit is 'passing' (you can also return null for no score)
-            score: 0,
+            score: null,
             // `details` controls how the audit is rendered in the report
             details: Audit.makeTableDetails(headings, items)
         };
