@@ -64,7 +64,7 @@ class SimulationAudit extends Audit {
 
             chart.innerHTML = JSON.stringify(data);
 
-            el.appendChild(chart);
+            el.getElementsByClassName('lh-expandable-details')?.[0]?.appendChild(chart);
         }
 
         return {
