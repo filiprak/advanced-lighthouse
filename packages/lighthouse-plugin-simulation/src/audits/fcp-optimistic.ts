@@ -5,8 +5,8 @@ import { FirstContentfulPaint as ComputedFcp } from 'lighthouse/core/computed/me
 class SimulationAudit extends Audit {
     static get meta(): LH.Audit.Meta {
         return {
-            id: 'fcp-details',
-            title: 'FCP Simulation details',
+            id: 'fcp-optimistic',
+            title: 'FCP Simulation details - Optimistic',
             description: 'Table shows FCP critical path simulation breakdown.',
             failureTitle: 'FCP Simulation details',
             supportedModes: ['navigation'],
@@ -69,7 +69,7 @@ class SimulationAudit extends Audit {
 
         return {
             // Score set to 1 so the audit is 'passing' (you can also return null for no score)
-            score: null,
+            score: 1,
             scoreDisplayMode: 'informative',
             // `details` controls how the audit is rendered in the report
             details: Audit.makeTableDetails(headings, items),
