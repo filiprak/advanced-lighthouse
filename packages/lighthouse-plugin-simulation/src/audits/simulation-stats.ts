@@ -38,7 +38,7 @@ class SimulationAudit extends Audit {
                     type: node.type,
                     start: res.startTime.toFixed(0),
                     end: res.endTime.toFixed(0),
-                    duration: res.duration.toFixed(0) + 'ms',
+                    duration: res.duration.toFixed(0) + ' ms',
                 };
             } else {
                 return {
@@ -46,7 +46,7 @@ class SimulationAudit extends Audit {
                     type: node.type,
                     start: res.startTime.toFixed(0),
                     end: res.endTime.toFixed(0),
-                    duration: res.duration.toFixed(0) + 'ms',
+                    duration: res.duration.toFixed(0) + ' ms',
                 };
             }
         });
