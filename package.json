@@ -8,6 +8,7 @@
   ],
   "main": "index.js",
   "scripts": {
+    "postinstall": "patch-package",
     "start": "npm run build -w packages/lighthouse-plugin-simulation && lighthouse https://mytruck-company.ikol.com --plugins=lighthouse-plugin-simulation --view --output-path ./out/report.html --only-categories=performance,lighthouse-plugin-simulation --chrome-flags='--headless'"
   },
   "repository": {
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/filiprak/advanced-lighthouse#readme",
   "dependencies": {
-    "lighthouse": "^13.0.1"
+    "lighthouse": "^13.0.1",
+    "patch-package": "^8.0.1"
   }
 }
