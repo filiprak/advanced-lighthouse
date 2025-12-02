@@ -1,0 +1,22 @@
+{
+  "name": "advanced-lighthouse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filiprak/advanced-lighthouse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/filiprak/advanced-lighthouse/issues"
+  },
+  "homepage": "https://github.com/filiprak/advanced-lighthouse#readme",
+  "dependencies": {
+    "lighthouse": "^13.0.1"
+  }
+}
