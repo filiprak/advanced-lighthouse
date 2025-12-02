@@ -62,7 +62,10 @@ class SimulationAudit extends Audit {
         return {
             score: null,
             scoreDisplayMode: 'informative',
-            details: Audit.makeTableDetails(headings, items),
+            details: {
+                type: 'debugdata',
+                _eval: `console.log(document.getElementById('${this.meta.id}'))`,
+            },
         };
     }
 }
