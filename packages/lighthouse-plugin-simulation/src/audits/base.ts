@@ -18,7 +18,15 @@ class SimulationAudit extends Audit {
         const metricResult = await this.getMetricResult(artifacts, context);
         const estimate = this.optimistic ? metricResult.optimisticEstimate : metricResult.pessimisticEstimate;
 
-        type Item = { name: string, type: string, start: number, end: number, duration: number };
+        type Item = {
+            name: string,
+            type: string,
+            start: number,
+            end: number,
+            duration: number,
+            resource: string,
+            size?: number,
+        };
 
         let maxEnd = 0;
 
@@ -29,6 +37,8 @@ class SimulationAudit extends Audit {
                 return {
                     name: node.request.url,
                     type: node.type,
+                    resource: node.request.resourceType || 'unknown',
+                    size: node.request.transferSize,
                     start: res.startTime,
                     end: res.endTime,
                     duration: res.duration,
@@ -36,6 +46,7 @@ class SimulationAudit extends Audit {
             } else {
                 return {
                     name: node.event.name,
+                    resource: 'cpu',
                     type: node.type,
                     start: res.startTime,
                     end: res.endTime,
@@ -57,15 +68,23 @@ class SimulationAudit extends Audit {
                 trace.style.marginLeft = ((item.start / data.max) * 100).toFixed(2) + '%';
                 trace.style.width = ((item.duration / data.max) * 100).toFixed(2) + '%';
                 trace.style.height = '15px';
-                trace.style.backgroundColor = 'blueviolet';
+                trace.style.backgroundColor = item.type == 'cpu' ? 'yellow' : 'blueviolet';
                 trace.style.border = '1px solid grey';
 
-                row.setAttribute('title', `[${item.duration.toFixed(0)} ms] ${item.type}: ${item.name}`);
+                row.setAttribute('title', `[${item.duration.toFixed(0)} ms] ${item.resource}: ${item.name}`);
                 row.addEventListener('mouseenter', () => { row.style.background = '#ffffff29' });
                 row.addEventListener('mouseleave', () => { row.style.background = '' });
                 row.appendChild(trace);
                 chart.appendChild(row);
             }
+            
+            const row = document.createElement('div');
+            row.style.marginTop = '10px';
+            row.style.color = 'white';
+            row.style.textAlign = 'center';
+            row.style.background = 'darkslateblue';
+            row.innerText = `Total: ${data.max.toFixed(0)} ms`;
+            chart.appendChild(row);
 
             el.getElementsByClassName('lh-expandable-details')?.[0]?.appendChild(chart);
         }
