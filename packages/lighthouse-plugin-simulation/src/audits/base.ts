@@ -26,6 +26,7 @@ class SimulationAudit extends Audit {
             duration: number,
             resource: string,
             size?: number,
+            url?: string,
         };
 
         let maxEnd = 0;
@@ -35,7 +36,8 @@ class SimulationAudit extends Audit {
 
             if (node.type == 'network') {
                 return {
-                    name: node.request.url,
+                    name: node.request.url.split('/').slice(-1)[0] || '/',
+                    url: node.request.url,
                     type: node.type,
                     resource: node.request.resourceType || 'unknown',
                     size: node.request.transferSize,
@@ -46,6 +48,7 @@ class SimulationAudit extends Audit {
             } else {
                 return {
                     name: node.event.name,
+                    url: node.event.name,
                     resource: 'cpu',
                     type: node.type,
                     start: res.startTime,
@@ -64,17 +67,30 @@ class SimulationAudit extends Audit {
             for (let item of data.items) {
                 const row = document.createElement('div');
                 const trace = document.createElement('div');
+                const label = document.createElement('div');
+
+                label.style.position = 'absolute';
+                label.style.top = '0';
+                label.style.left = '0';
+                label.style.bottom = '0';
+                label.style.zIndex = '2';
+                label.style.color = 'white';
+                label.style.fontSize = '11px';
+                label.style.lineHeight = 'normal';
+                label.innerText = `${item.name}`;
 
                 trace.style.marginLeft = ((item.start / data.max) * 100).toFixed(2) + '%';
                 trace.style.width = ((item.duration / data.max) * 100).toFixed(2) + '%';
                 trace.style.height = '15px';
-                trace.style.backgroundColor = item.type == 'cpu' ? 'yellow' : 'blueviolet';
+                trace.style.backgroundColor = item.type == 'cpu' ? 'yellow' : 'lightseagreen';
                 trace.style.border = '1px solid grey';
 
-                row.setAttribute('title', `[${item.duration.toFixed(0)} ms] ${item.resource}: ${item.name}`);
+                row.style.position = 'relative';
+                row.setAttribute('title', `[${item.duration.toFixed(0)} ms] ${item.resource}: ${item.url}`);
                 row.addEventListener('mouseenter', () => { row.style.background = '#ffffff29' });
                 row.addEventListener('mouseleave', () => { row.style.background = '' });
                 row.appendChild(trace);
+                row.appendChild(label);
                 chart.appendChild(row);
             }
             
